@@ -1,0 +1,734 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="enrollment_db" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=CRUIZWELL-C\SQLEXPRESS;Initial Catalog=enrollment_db;Integrated Security=True" SettingsObjectName="Enrollment_System_NEW.Properties.Settings" SettingsPropertyName="enrollment_dbConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.academic_year" Member="academic_years">
+    <Type Name="academic_year">
+      <Column Name="acd_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="acad_year" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="academic_year_enrollment_info" Member="enrollment_infos" ThisKey="acd_id" OtherKey="acd_id" Type="enrollment_info" />
+    </Type>
+  </Table>
+  <Table Name="dbo.prof_info" Member="prof_infos">
+    <Type Name="prof_info">
+      <Column Name="prof_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="prof_no" Type="System.String" DbType="VarChar(4)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="prof_fname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prof_mname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prof_lname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prof_bdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="prof_age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="prof_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="prof_email_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="prof_info_schedule" Member="schedules" ThisKey="prof_id" OtherKey="prof_id" Type="schedule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.programs" Member="programs">
+    <Type Name="program">
+      <Column Name="prg_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="prog_name" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="program_desc" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="program_section" Member="sections" ThisKey="prg_id" OtherKey="prg_id" Type="section" />
+      <Association Name="program_subject" Member="subjects" ThisKey="prg_id" OtherKey="prg_id" Type="subject" />
+      <Association Name="program_enrollment_info" Member="enrollment_infos" ThisKey="prg_id" OtherKey="prog_id" Type="enrollment_info" />
+    </Type>
+  </Table>
+  <Table Name="dbo.sections" Member="sections">
+    <Type Name="section">
+      <Column Name="section_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="section_code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prg_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="section_schedule" Member="schedules" ThisKey="section_id" OtherKey="section_id" Type="schedule" />
+      <Association Name="section_enrollment_info" Member="enrollment_infos" ThisKey="section_id" OtherKey="section_id" Type="enrollment_info" />
+      <Association Name="program_section" Member="program" ThisKey="prg_id" OtherKey="prg_id" Type="program" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.schedules" Member="schedules">
+    <Type Name="schedule">
+      <Column Name="sched_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="section_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="semester" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="academic_year" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="sched_day" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="sched_time" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Column Name="prof_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="prof_info_schedule" Member="prof_info" ThisKey="prof_id" OtherKey="prof_id" Type="prof_info" IsForeignKey="true" />
+      <Association Name="section_schedule" Member="section" ThisKey="section_id" OtherKey="section_id" Type="section" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.student_info" Member="student_infos">
+    <Type Name="student_info">
+      <Column Name="std_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="std_no" Type="System.String" DbType="VarChar(4)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="std_fname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_mname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_lname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_bdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="std_age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="std_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="std_email_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="student_info_enrollment_info" Member="enrollment_infos" ThisKey="std_id" OtherKey="std_id" Type="enrollment_info" />
+    </Type>
+  </Table>
+  <Table Name="dbo.subjects" Member="subjects">
+    <Type Name="subject">
+      <Column Name="sub_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="prg_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sub_code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="sub_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="sub_desc" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="program_subject" Member="program" ThisKey="prg_id" OtherKey="prg_id" Type="program" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.user_accounts" Member="user_accounts">
+    <Type Name="user_account">
+      <Column Name="user_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ref_id" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="username" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="temp_password" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="role" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.enrollment_info" Member="enrollment_infos">
+    <Type Name="enrollment_info">
+      <Column Name="enr_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="std_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="section_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="prog_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="acd_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="semester" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="year_lvl" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="academic_year_enrollment_info" Member="academic_year" ThisKey="acd_id" OtherKey="acd_id" Type="academic_year" IsForeignKey="true" />
+      <Association Name="program_enrollment_info" Member="program" ThisKey="prog_id" OtherKey="prg_id" Type="program" IsForeignKey="true" />
+      <Association Name="section_enrollment_info" Member="section" ThisKey="section_id" OtherKey="section_id" Type="section" IsForeignKey="true" />
+      <Association Name="student_info_enrollment_info" Member="student_info" ThisKey="std_id" OtherKey="std_id" Type="student_info" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.add_prof" Method="add_prof">
+    <Parameter Name="prof_fname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="prof_mname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="prof_lname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="prof_bdate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="prof_age" Type="System.Int32" DbType="Int" />
+    <Parameter Name="prof_address" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="prof_email_address" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.add_stud_account" Method="add_stud_account">
+    <Parameter Name="idcode" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="username" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="password" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="temppass" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Parameter Name="role" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.show_deact_prof" Method="show_deact_prof">
+    <ElementType Name="show_deact_profResult">
+      <Column Name="[Internal ID]" Member="Internal_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[PRF ID]" Member="PRF_ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="[First Name]" Member="First_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Middle Name]" Member="Middle_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Last Name]" Member="Last_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.show_prof" Method="show_prof">
+    <ElementType Name="show_profResult">
+      <Column Name="[Internal ID]" Member="Internal_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[PRF ID]" Member="PRF_ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="[First Name]" Member="First_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Middle Name]" Member="Middle_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Last Name]" Member="Last_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.show_prof_active" Method="show_prof_active">
+    <ElementType Name="show_prof_activeResult">
+      <Column Name="[Internal ID]" Member="Internal_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[PRF ID]" Member="PRF_ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="[First Name]" Member="First_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Middle Name]" Member="Middle_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Last Name]" Member="Last_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.show_users" Method="show_users">
+    <ElementType Name="show_usersResult">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Reference ID]" Member="Reference_ID" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Temporary  Password]" Member="Temporary__Password" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.show_users_active" Method="show_users_active">
+    <ElementType Name="show_users_activeResult">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Reference ID]" Member="Reference_ID" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Temporary  Password]" Member="Temporary__Password" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.show_users_inactive" Method="show_users_inactive">
+    <ElementType Name="show_users_inactiveResult">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Reference ID]" Member="Reference_ID" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Temporary  Password]" Member="Temporary__Password" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_add_student" Method="sp_add_student">
+    <Parameter Name="std_fname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="std_mname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="std_lname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="std_bdate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="std_age" Type="System.Int32" DbType="Int" />
+    <Parameter Name="std_address" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="std_email_address" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_all_sections" Method="sp_all_sections">
+    <ElementType Name="sp_all_sectionsResult">
+      <Column Name="section_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="section_code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prg_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_all_students" Method="sp_all_students">
+    <ElementType Name="sp_all_studentsResult">
+      <Column Name="std_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="std_no" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="std_fname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_mname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_lname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_bdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="std_age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="std_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="std_email_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_check_username" Method="sp_check_username">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_deact_prof" Method="sp_deact_prof">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_prof_isActive" Method="sp_prof_isActive">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_prof_reactivate" Method="sp_prof_reactivate">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_search" Method="sp_search">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="sp_searchResult">
+      <Column Name="ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="[First Name]" Member="First_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Middle Name]" Member="Middle_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Last Name]" Member="Last_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="[E-Mail]" Member="E_Mail" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_search_id" Method="sp_search_id">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="sp_search_idResult">
+      <Column Name="std_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="std_no" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="std_fname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_mname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_lname" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="std_bdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="std_age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="std_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="std_email_address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_search_std" Method="sp_search_std">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="sp_search_stdResult">
+      <Column Name="std_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_search_users" Method="sp_search_users">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="sp_search_usersResult">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Reference ID]" Member="Reference_ID" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Temporary  Password]" Member="Temporary__Password" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_set_temppass" Method="sp_set_temppass">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Parameter Name="temp" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_signup_prof" Method="sp_signup_prof">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="fname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="lname" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_signup_student" Method="sp_signup_student">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="fname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="lname" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_stud_update" Method="sp_stud_update">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="fname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="mname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="lname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="bdate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="address" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="email" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_student_info" Method="sp_student_info">
+    <ElementType Name="sp_student_infoResult">
+      <Column Name="[Internal ID]" Member="Internal_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="[First Name]" Member="First_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Middle Name]" Member="Middle_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Last Name]" Member="Last_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="[E-Mail]" Member="E_Mail" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_temppass_check" Method="sp_temppass_check">
+    <Parameter Name="password" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_user_update" Method="sp_user_update">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Parameter Name="role" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.update_prof" Method="update_prof">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="prof_fname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="prof_mname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="prof_lname" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="prof_bdate" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="prof_age" Type="System.Int32" DbType="Int" />
+    <Parameter Name="prof_address" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="prof_email_address" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_username_check" Method="sp_username_check">
+    <Parameter Name="username" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_enroll_student" Method="sp_enroll_student">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sect_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="prog_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="acd_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Parameter Name="yearlvl" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_add_ay" Method="sp_add_ay">
+    <Parameter Name="acad_year" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_acad_year" Method="sp_acad_year">
+    <ElementType Name="sp_acad_yearResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AY" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_delete_ay" Method="sp_delete_ay">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_active_program" Method="sp_active_program">
+    <ElementType Name="sp_active_programResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Prog Code]" Member="Prog_Code" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_add_program" Method="sp_add_program">
+    <Parameter Name="prog_code" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="prog_desc" Type="System.String" DbType="Text" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_prog_update" Method="sp_prog_update">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Parameter Name="prog_code" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="prog_desc" Type="System.String" DbType="Text" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_del_program" Method="sp_del_program">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_search_ay" Method="sp_search_ay">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="sp_search_ayResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AY" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_all_programs" Method="sp_all_programs">
+    <ElementType Name="sp_all_programsResult">
+      <Column Name="prg_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="prog_name" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="program_desc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_add_section" Method="sp_add_section">
+    <Parameter Name="prog_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="section_code" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_section_view" Method="sp_section_view">
+    <ElementType Name="sp_section_viewResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prog_name" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_del_section" Method="sp_del_section">
+    <Parameter Name="sec_id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_update_section" Method="sp_update_section">
+    <Parameter Name="sec_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sec_code" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="prg_id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_add_subjects" Method="sp_add_subjects">
+    <Parameter Name="prg_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sub_code" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="sub_name" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="sub_desc" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_update_suubjects" Method="sp_update_suubjects">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Parameter Name="prg_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sub_code" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="sub_name" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="sub_desc" Type="System.String" DbType="VarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_delete_subject" Method="sp_delete_subject">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_all_ay" Method="sp_all_ay">
+    <ElementType Name="sp_all_ayResult">
+      <Column Name="acd_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="acad_year" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_delete_sched" Method="sp_delete_sched">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_search_program" Method="sp_search_program">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="sp_search_programResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Prog Code]" Member="Prog_Code" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_search_section" Method="sp_search_section">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="sp_search_sectionResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prog_name" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.search_subject" Method="search_subject">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="search_subjectResult">
+      <Column Name="Program" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="[Subject ID]" Member="Subject_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Subject Code]" Member="Subject_Code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Subject Name]" Member="Subject_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_active_subjects" Method="sp_active_subjects">
+    <ElementType Name="sp_active_subjectsResult">
+      <Column Name="Program" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="[Subject ID]" Member="Subject_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Subject Code]" Member="Subject_Code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Subject Name]" Member="Subject_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.check_enr" Method="check_enr">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_enr_students" Method="sp_enr_students">
+    <Parameter Name="ay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_enr_studentsResult">
+      <Column Name="[EN ID]" Member="EN_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Stud Internal ID]" Member="Stud_Internal_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Stud ID]" Member="Stud_ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(62) NOT NULL" CanBeNull="false" />
+      <Column Name="[Academic Year]" Member="Academic_Year" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Sem" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Program" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="[Year  Level]" Member="Year__Level" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_enr_specific" Method="sp_enr_specific">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="ay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_enr_specificResult">
+      <Column Name="[EN ID]" Member="EN_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Stud Internal ID]" Member="Stud_Internal_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Stud ID]" Member="Stud_ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(62) NOT NULL" CanBeNull="false" />
+      <Column Name="[Academic Year]" Member="Academic_Year" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Sem" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Program" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="[Year  Level]" Member="Year__Level" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_enr_update" Method="sp_enr_update">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sect_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="prog_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="acd_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <Parameter Name="yearlvl" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_unenroll" Method="sp_unenroll">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.add_adm_info" Method="add_adm_info">
+    <Parameter Name="adm_fname" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="adm_mname" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="adm_lname" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_login" Method="sp_login">
+    <Parameter Name="username" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="password" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ret" Type="System.String" DbType="VarChar(10)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_ref_id" Method="sp_ref_id">
+    <Parameter Name="username" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="password" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="ref_id" Type="System.String" DbType="VarChar(10)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.stud_det_name" Method="stud_det_name">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="fullname" Type="System.String" DbType="VarChar(50)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.stud_det_id" Method="stud_det_id">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="int_id" Type="System.String" DbType="VarChar(50)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.stud_det_section" Method="stud_det_section">
+    <Parameter Name="int_id" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="ay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <Parameter Name="section" Type="System.String" DbType="VarChar(20)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_all_subjects" Method="sp_all_subjects">
+    <ElementType Name="sp_all_subjectsResult">
+      <Column Name="sub_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="prg_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sub_code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="sub_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="sub_desc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="isActive" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_add_schedule" Method="sp_add_schedule">
+    <Parameter Name="section" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <Parameter Name="acad_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sched_day" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="sched_subject" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sched_start" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="sched_end" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="prof_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="isActive" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_search_schedules" Method="sp_search_schedules">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="sp_search_schedulesResult">
+      <Column Name="[Sched ID]" Member="Sched_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Academic Year]" Member="Academic_Year" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Semester" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Subject" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Day" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="[Start Time]" Member="Start_Time" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="[End Time]" Member="End_Time" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Professor" Type="System.String" DbType="VarChar(62) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_all_schedules" Method="sp_all_schedules">
+    <ElementType Name="sp_all_schedulesResult">
+      <Column Name="[Sched ID]" Member="Sched_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Academic Year]" Member="Academic_Year" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Semester" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Subject" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Day" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="[Start Time]" Member="Start_Time" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="[End Time]" Member="End_Time" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Professor" Type="System.String" DbType="VarChar(62) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_update_schedule" Method="sp_update_schedule">
+    <Parameter Name="key" Type="System.Int32" DbType="Int" />
+    <Parameter Name="section" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <Parameter Name="acad_year" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sched_day" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="sched_start" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="sched_end" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="prof_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sub_id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_show_sched" Method="sp_show_sched">
+    <Parameter Name="section" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="ay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_show_schedResult">
+      <Column Name="[Subject Code]" Member="Subject_Code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Subject Name]" Member="Subject_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Day" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Time" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="Professor" Type="System.String" DbType="VarChar(62) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_det_name" Method="sp_det_name">
+    <Parameter Name="id_code" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="name" Type="System.String" DbType="VarChar(50)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_all_prof" Method="sp_all_prof">
+    <ElementType Name="sp_all_profResult">
+      <Column Name="prof_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="prof_name" Type="System.String" DbType="VarChar(62) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_prof_id" Method="sp_prof_id">
+    <Parameter Name="id_code" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="int_id" Type="System.String" DbType="VarChar(10)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_prof_sched" Method="sp_prof_sched">
+    <Parameter Name="int_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_prof_schedResult">
+      <Column Name="[Subject Code]" Member="Subject_Code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Subject Name]" Member="Subject_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Day" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Time" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_prof_sched" Method="sp_prof_sched1">
+    <Parameter Name="int_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ay" Type="System.Int32" DbType="Int" />
+    <Parameter Name="sem" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_prof_schedResult1">
+      <Column Name="[Subject Code]" Member="Subject_Code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Subject Name]" Member="Subject_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Day" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Time" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="Section" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_has_TempPass" Method="sp_has_TempPass">
+    <Parameter Name="username" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="password" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_new_pass" Method="sp_new_pass">
+    <Parameter Name="username" Type="System.String" DbType="VarChar(30)" />
+    <Parameter Name="password" Type="System.String" DbType="VarChar(30)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_face_login" Method="sp_face_login">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.sp_search_prof" Method="sp_search_prof">
+    <Parameter Name="key" Type="System.String" DbType="VarChar(MAX)" />
+    <ElementType Name="sp_search_profResult">
+      <Column Name="[Internal ID]" Member="Internal_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ID" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="[First Name]" Member="First_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Middle Name]" Member="Middle_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="[Last Name]" Member="Last_Name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Birthdate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="[E-Mail]" Member="E_Mail" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>
